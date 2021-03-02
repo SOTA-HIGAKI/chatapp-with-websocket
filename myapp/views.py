@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login,authenticate
 from . forms import SignUpForm
 
@@ -16,13 +16,19 @@ def signup_view(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username = username, password = raw_password)
             login(request,user)
-            return redirect('index')
+            return redirect('/')
     else:
         form = SignUpForm()
     return render(request,'myapp/signup.html',{'form':form})
 
 def login_view(request):
-    return render(request, "myapp/login.html")
+    if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        # if form.is_valid():
+
+    else:
+        form =AuthenticationForm()
+    return render(request, "myapp/login.html",{'form':form})
 
 def friends(request):
     return render(request, "myapp/friends.html")

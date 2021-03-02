@@ -16,4 +16,3 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model =Document
         fields = ('photo',)
-# class LoginForm(forms.Form):

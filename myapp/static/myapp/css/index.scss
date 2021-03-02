@@ -5,6 +5,8 @@ html{
         justify-content: center;
         align-items: center;
         height: 100%;
+        flex-direction: column;
+        margin: 50% 0;
         p{
             text-align: center;
             display: flex;
@@ -13,9 +15,12 @@ html{
                 height: auto;
                 text-decoration: none;
                 padding: 5px;
-                border: solid black 1px;//?
+                border: solid black 1px;
                 color: black;
                 border-radius: 4px;
+                &:hover{
+                    background-color: azure;
+                }
             }
         }
     }
