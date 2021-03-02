@@ -1,0 +1,23 @@
+html{
+    height: 100%;
+    .container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        p{
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            a{
+                height: auto;
+                text-decoration: none;
+                padding: 5px;
+                border: solid black 1px;//?
+                color: black;
+                border-radius: 4px;
+            }
+        }
+    }
+}
+body{height: 1rem;}
