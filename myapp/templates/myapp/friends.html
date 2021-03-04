@@ -1,0 +1,8 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Friends{% endblock title %}
+{% block header-title %}友達{% endblock header-title %}
+{% block content %}
+{% for friend in friends %}　{% comment %}urlsと指定が違うがこれでいい{% endcomment %}
+<a href="{% url 'talk_room' friend.username %}" name="{{friend.username}}">{{friend.username}}</a>
+{% endfor %}
+    {% endblock %}

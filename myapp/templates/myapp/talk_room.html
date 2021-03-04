@@ -1,1 +1,16 @@
-TR
+{% extends 'myapp/base.html' %}
+{% block header-title %}
+{{room_name}}
+{% endblock header-title %}
+{% block content %}
+ <div class="container">
+{% for d in data %}
+<p>{{d}}</p>{% endfor %}
+</div>
+{% endblock content %}
+{% block footer %}
+<form method="POST">
+{% csrf_token %}
+{{form}}
+<button type="submit">送信</button>
+</form>{% endblock footer %}
