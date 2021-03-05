@@ -1,16 +1,27 @@
 {% extends 'myapp/base.html' %}
+{% load static %}
 {% block header-title %}
 {{room_name}}
 {% endblock header-title %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/talk_room.css' %}" />
+{% endblock %}
 {% block content %}
  <div class="container">
 {% for d in data %}
-<p>{{d}}</p>{% endfor %}
+<p>{{d.owner}}:</p>
+
+<p>{{d.contents}}({{d.pub_date|date:'m/d H:i:s'}})</p>{% endfor %}
 </div>
 {% endblock content %}
 {% block footer %}
-<form method="POST">
-{% csrf_token %}
-{{form}}
-<button type="submit">送信</button>
-</form>{% endblock footer %}
+
+<footer class="footer">
+    <div class="footer-container">
+        <form method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit" href="#jump">送信</button>
+        </form>
+    </div>
+</footer>{% endblock footer %}

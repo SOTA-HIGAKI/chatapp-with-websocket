@@ -4,6 +4,7 @@ html{
 }
 body{
     margin: 0;
+    padding: 65px 0;
 }
 
 /* ヘッダー */
@@ -11,6 +12,9 @@ body{
     width: 100vw;
     height: 64px;
     border-bottom: solid 1px #9b9b9b;
+    position: fixed;
+    top: 0%;
+    background-color: #cccccc;
 }
 .header-container{
     position: relative;
@@ -37,6 +41,9 @@ body{
 .footer{
     width: 100vw;
     height: 64px;
+    background-color: #d1d1d1;
+    position: fixed;
+    bottom: 0;
 }
 .footer-container{
     display: flex;
