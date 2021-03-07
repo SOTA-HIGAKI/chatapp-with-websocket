@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             name='Image',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(default='defo', upload_to='myapp/css/img/')),
+                ('image', models.ImageField(default='myapp/css/img/default.png', upload_to='myapp/css/img/')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

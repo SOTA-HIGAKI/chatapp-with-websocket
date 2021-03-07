@@ -1,8 +1,68 @@
 {% extends 'myapp/base.html' %}
+{% load static %}
 {% block title %}Friends{% endblock title %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/friends.css' %}" />
+{% endblock %}
 {% block header-title %}友達{% endblock header-title %}
+
 {% block content %}
-{% for friend in friends %}　{% comment %}urlsと指定が違うがこれでいい{% endcomment %}
-<a href="{% url 'talk_room' friend.username %}" name="{{friend.username}}">{{friend.username}}</a>
-{% endfor %}
+<div class="talkbox">
+    <div class="user_image">
+        {% for image in images %}
+        <div class='image'><img src='../../../media/{{image.image}}'></div>{% endfor %}
+    </div>
+    <div class="user_name_column">
+        {% for friend in data %}　{% comment %}urlsと指定が違うがこれでいい{% endcomment %}
+        <div class="user_name"><a href="{% url 'talk_room' friend.username %}" name="{{friend.username}}">{{friend.username}}</a></div>
+        {% endfor %}
+    </div>
+</div>
+<ul class="pagination">
+        {% if data.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{% url 'friends' %}">
+                &laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+            href="{% url 'friends' %}/{{data.previous_page_number}}">
+                &laquo; prev</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link">
+                &laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">
+                &laquo; prev</a>
+        </li>
+        {% endif %}
+        <li class="page-item">
+            <a class="page-link">
+            {{data.number}}/{{data.paginator.num_pages}}</a>
+        </li>
+        {% if data.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+            href="{% url 'friends' %}/{{data.next_page_number}}">
+                next &raquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+            href="{% url 'friends' %}/{{data.paginator.num_pages}}">
+                last &raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link">
+                next &raquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">
+                last &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
     {% endblock %}

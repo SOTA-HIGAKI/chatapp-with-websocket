@@ -4,7 +4,7 @@
 {% block content %}
 <a href="{% url 'namechange' %}">ユーザー名変更</a>
 <a href="{% url 'emailchange' %}">メールアドレス変更</a>
-<a href="">アイコン変更</a>
+<a href="{% url 'imagechange' %}">アイコン変更</a>
 <a href="{% url 'password_change' %}">パスワード変更</a>
 <a href="{% url 'logout_view' %}">ログアウト</a>
 {% endblock content %}

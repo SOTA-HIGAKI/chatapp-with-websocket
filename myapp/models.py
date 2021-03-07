@@ -12,7 +12,7 @@ class Message(models.Model):
 
 class Image(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    image = models.ImageField(upload_to = 'myapp/css/img/',default = 'defo')
+    image = models.ImageField(upload_to = 'myapp/css/img/',default = 'myapp/css/img/default.png')
 
 
     def __str__(self):

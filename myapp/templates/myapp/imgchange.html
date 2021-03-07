@@ -1,0 +1,12 @@
+{% extends 'myapp/base.html' %}
+{% block header-title %}
+{{title}}変更
+{% endblock header-title %}
+{% block content %}
+<form action="{% url 'imagechange'%}" method = 'POST' name='imgchange_form' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">変更する</button>
+</form>
+{% endblock content %}
+{% block footer %}{% endblock footer %}

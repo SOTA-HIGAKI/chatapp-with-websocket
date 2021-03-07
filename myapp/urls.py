@@ -15,4 +15,5 @@ urlpatterns = [
     path('pwchangedone',views.PasswordChangeDoneView.as_view(),name='password_change_done'),
     path('namechange',views.NameChange.as_view(),name='namechange'),
     path('emailchange',views.EmailChange.as_view(),name='emailchange'),
+    path('imagechange',views.image_change,name='imagechange'),
 ]

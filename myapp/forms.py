@@ -34,3 +34,11 @@ class EmailChangeForm(forms.ModelForm):
     def update(self, user):
         user.email = self.cleaned_data['email']
         user.save()
+
+class ImageChangeForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ['image',]
+    # def update(self,image):
+    #     image.image = self.cleaned_data['image']
+    #     image.save()

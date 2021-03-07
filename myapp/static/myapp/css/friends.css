@@ -1,0 +1,45 @@
+.talkbox{
+    display: flex;
+    flex-direction: row;
+}
+.user_image{
+    display: flex;
+    flex-direction: column;
+    width: 60px;
+}
+.image{
+    width: 60px;
+    height: 60px;
+}
+.image img{
+    max-height:100%;
+    max-width: 100%;
+}
+.user_name_column{
+    display:flex;
+    flex-direction: column;
+    width: 100px;
+}
+.user_name{
+    display:flex;
+    align-items: center;
+    height: 60px;
+    margin: -18px 0 0 0;
+}
+.user_name a{
+    margin: 0%;
+    padding: 0%;
+    text-decoration: none;
+}
+body{
+    margin: 0%;
+    padding: 60px 0 0;
+}
+
+.pagination{
+    display: flex;
+    flex-direction: row;
+}
+.page-item{
+    list-style: none;
+}
