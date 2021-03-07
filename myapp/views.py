@@ -73,6 +73,7 @@ def talk_room(request,room_name): #urlsでそのように指定しているの�
 @login_required(login_url ='/login')
 def friends(request,num=1):
     friends = User.objects.all().filter(~Q(username=request.user))
+    #friendsとtalkroomの順番がそもそも結びついていないので困難。。。
     # data = []
     # for friend in friends:
     #     messages = Message.objects.all().filter(Q(owner = request.user,receiver = friend)|Q(owner__username = friend, receiver = request.user))
@@ -99,7 +100,7 @@ def setting(request):
 #     template_name = ''
 
 # class PWChangeDone(LoginRequiredMixin,PasswordChangeDoneView):
-#     template_name = ''
+#     template_name = ''LoginRequiredMixin,
 
 class NameChange(LoginRequiredMixin,FormView):
     def get(self, request, *args, **kwargs):
@@ -116,7 +117,7 @@ class NameChange(LoginRequiredMixin,FormView):
             user_obj = User.objects.get(username=request.user.username)
             user_obj.username = username
             user_obj.save()
-            return redirect('/setting')
+            return redirect('/redirect')
         else:
             params["form"] = form
             return render(request, 'myapp/valchange.html', params)
@@ -133,10 +134,10 @@ class EmailChange(LoginRequiredMixin,FormView):
         form = EmailChangeForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
-            user_obj = User.objects.get(email=request.user.email)
+            user_obj = User.objects.get(username=request.user.username)
             user_obj.email = email
             user_obj.save()
-            return redirect('/setting')
+            return redirect('/redirect')
         else:
             params["form"] = form
             return render(request, 'myapp/valchange.html', params)
@@ -149,27 +150,33 @@ def image_change(request):
     except ObjectDoesNotExist:
         userImg = Image.objects.none()
     if request.method == 'GET':
-        params = {"title":"プロフィール画像",}
         form = ImageChangeForm(instance=request.user) #userの情報が入ったformを参照
-        params["form"] = form
-        params["userimg"] = userImg
+        params ={
+            "title":"プロフィール画像",
+            "form":form,
+            "userimg":userImg,
+        }
         return render(request, 'myapp/imgchange.html', params)
 
     elif request.method == "POST":
         params = {"title":"プロフィール画像",}
         form = ImageChangeForm(request.POST,request.FILES)
         print(request.POST)
-        print(request.FILES) #なんで空になるの？
+        print(request.FILES) #↓のとき、なんで空になるの？あとでgitで確認。
         if form.is_valid():
             userImg.image = form.cleaned_data.get("image")
             # img_obj = Image.objects.get(image=newImage,user = request.user)
             # img_obj.image = newImage
             userImg.save()
-            return redirect('/setting')
+            return redirect('/redirect')
         else:
             pass
         params ={
             "form":form,
-            "userimg":userImg,
+            "userimg":userImg, #意味ある？
         }
         return render(request, 'myapp/imgchange.html', params)
+
+
+def redirection(request):
+    return render(request,'myapp/redirect.html')

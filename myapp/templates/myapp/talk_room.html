@@ -1,8 +1,15 @@
 {% extends 'myapp/base.html' %}
 {% load static %}
-{% block header-title %}
-{{room_name}}
-{% endblock header-title %}
+{% block header %}
+<header class="header">
+        <div class="header-container">
+        <a href="{% url 'friends' %}" class="back">&laquo;</a>
+            <span class="header-container__title">
+                {{room_name}}
+            </span>
+        </div>
+    </header>
+{% endblock header %}
 {% block extra_style %}
 <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/talk_room.css' %}" />
 {% endblock %}

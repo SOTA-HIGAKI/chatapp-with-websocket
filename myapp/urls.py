@@ -16,4 +16,5 @@ urlpatterns = [
     path('namechange',views.NameChange.as_view(),name='namechange'),
     path('emailchange',views.EmailChange.as_view(),name='emailchange'),
     path('imagechange',views.image_change,name='imagechange'),
+    path('redirect',views.redirection,name='redirect'),
 ]
