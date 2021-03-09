@@ -130,6 +130,6 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/friends'
 LOGOUT_REDIRECT_URL='/'
 try:
-    from . import local_settings
+    from local_settings import *
 except ImportError:
     pass
