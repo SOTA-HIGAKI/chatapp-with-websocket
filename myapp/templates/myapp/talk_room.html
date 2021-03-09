@@ -7,6 +7,7 @@
             <span class="header-container__title">
                 {{room_name}}
             </span>
+        <a href="{% url 'talk_room' room_name %}">更新</a>
         </div>
     </header>
 {% endblock header %}
@@ -14,21 +15,67 @@
 <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/talk_room.css' %}" />
 {% endblock %}
 {% block content %}
+<div class="talk_room">
+
+    <!-- トークの表示部分 -->
+    <ul class="talk_room__chatboard" id="talk_room__chatboard">
+        <!-- =================== -->
+        <!-- トークに応じて表示  -->
+        <!-- ＞for文を回して表示 -->
+        <!-- =================== -->
+        {% for talk in data %}
+        <!-- ============================================== -->
+        <!-- 自分→友人と友人→自分のメッセージで表示を変える -->
+        <!-- ＞違いを見出してclassの違いに反映              -->
+        <!-- ＞cssにて表示に違いを出す                      -->
+        <!-- ============================================== -->
+            {% if talk.owner == user %}
+            <li class="talk_room__chatboard-content talk_room__chatboard-content-user" id="talk_room__chatboard">
+                <img class="friends__list-usericon-user" src="{{ user.image_user.image.url }}">
+                <p class="talk_room__chatboard-content-user-name">＞{{ talk.owner }}</p>
+                <p class="talk_room__chatboard-content-user-text">{{ talk.contents }}({{talk.pub_date|date:'m/d H:i:s'}})</p>
+            </li>
+            {% else %}
+            <li class="talk_room__chatboard-content talk_room__chatboard-content-friend" id="talk_room__chatboard">
+                <img class="friends__list-usericon-friend" src="{{ friend.image_user.image.url }}">
+                <p class="talk_room__chatboard-content-friend-name">＞{{ talk.owner }}</p>
+                <p class="talk_room__chatboard-content-friend-text">{{ talk.contents }}({{talk.pub_date|date:'m/d H:i:s'}})</p>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+    <!-- トークの送信部分 -->
+{% comment %} {% block content %}
  <div class="container">
 {% for d in data %}
 <p>{{d.owner}}:</p>
 
 <p>{{d.contents}}({{d.pub_date|date:'m/d H:i:s'}})</p>{% endfor %}
-</div>
-{% endblock content %}
+</div> {% endcomment %}
+
 {% block footer %}
 
 <footer class="footer">
     <div class="footer-container">
-        <form method="POST">
+        <form method="POST" id="id_talk" class="talk_room__sendbox">
         {% csrf_token %}
         {{form}}
-        <button type="submit" href="#jump">送信</button>
+        <button  class="talk_room__sendbox-btn" type="submit" href="#jump">送信</button>
         </form>
     </div>
 </footer>{% endblock footer %}
+{% block js %}
+<script>
+    // 入力予測の表示をさせない（めっちゃ邪魔）
+    document.getElementById('id_talk').setAttribute('autocomplete', 'off');
+    // トークの表示を新しいものを下にしているため、最下にスクロールさせる
+    function scrollToBottom(){
+        var height = document.getElementById("talk_room__chatboard");
+        window.scroll(0, height.scrollHeight);
+    }
+        scrollToBottom();
+</script>
+
+{% endblock js %}

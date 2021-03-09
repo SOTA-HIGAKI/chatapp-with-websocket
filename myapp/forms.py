@@ -32,7 +32,7 @@ class EmailChangeForm(forms.ModelForm):
         model = User
         fields = ['email',]
     def update(self, user):
-        user.email = self.cleaned_data['email']
+        user.email = self.cleaned_data['email'] #これは結局Reporter.objects.all().updateみたいな感じで使うために設定しているっぽい
         user.save()
 
 class ImageChangeForm(forms.ModelForm):

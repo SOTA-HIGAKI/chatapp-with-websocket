@@ -1,46 +1,85 @@
-.talkbox{
-    display: flex;
-    flex-direction: row;
-}
-.user_image{
-    display: flex;
-    flex-direction: column;
-    width: 60px;
-}
-.image{
-    width: 60px;
-    height: 60px;
-}
-.image img{
-    max-height:100%;
-    max-width: 100%;
-}
-.user_name_column{
-    display:flex;
-    flex-direction: column;
-    width: 100px;
-}
-.user_name{
-    display:flex;
-    align-items: center;
-    height: 60px;
-    margin: -18px 0 0 0;
-}
-.user_name a{
-    margin: 0%;
-    padding: 0%;
-    text-decoration: none;
-}
-body{
-    margin: 0%;
-    padding: 60px 0 0;
+@charset "UTF-8";
+html {
+  font-size: 13px;
 }
 
-.pagination{
-    display: flex;
-    flex-direction: row;
-    padding: 0 30%;
+.friends__list {
+  width: calc(100% - 32px);
+  /*計算している*/
+  height: 4rem;
+  padding: 8px 16px;
+  list-style: none;
+  border-bottom: solid 1px #888;
 }
-.page-item{
-    list-style: none;
+
+.friends__list-wrap {
+  padding: 0%;
+  margin: 0%;
 }
+
+.friends__list-link {
+  text-decoration: none;
+  color: #000;
+}
+
+.friends__list-usericon {
+  position: absolute;
+  /* 縦横の長さを合わせる */
+  height: calc(4rem - 16px);
+  width: calc(4rem - 16px);
+  border: solid 1px #fff;
+  border-radius: 50%;
+  float: left;
+  /* ここは調べた方が早い、便利要素object-fit */
+  -o-object-fit: cover;
+     object-fit: cover;
+  z-index: -1;
+}
+
+.friends__list-username {
+  font-size: 1.2rem;
+  width: calc(100% - 4rem - 8px);
+  margin: 0 0 0 auto;
+}
+
+.friends__list-talk {
+  width: calc(100% - 4rem - 8px);
+  margin: 1rem 0 1rem auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.friends__list-talk-content {
+  max-width: calc(100% - 2.4rem - 16px);
+  margin: auto 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.friends__list-talk-time {
+  width: 2.4rem;
+  margin: auto 0;
+}
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 0 30%;
+}
+
+.page-item {
+  list-style: none;
+}
+/*# sourceMappingURL=friends.css.map */

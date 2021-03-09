@@ -11,7 +11,7 @@ class Message(models.Model):
         return '(by:' + str(self.owner) + ')'+str(self.contents) + str(self.pub_date)
 
 class Image(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='image_user')
     image = models.ImageField(upload_to = 'myapp/css/img/',default = 'myapp/css/img/default.png')
 
 

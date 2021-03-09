@@ -5,7 +5,7 @@ from . forms import SignUpForm, LoginForm, PostForm , NameChangeForm, EmailChang
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView ,PasswordChangeView,PasswordChangeDoneView
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, OuterRef, Subquery
 from django.core.paginator import Paginator
 from .models import Message,Image
 from django.views.generic import FormView
@@ -64,6 +64,8 @@ def talk_room(request,room_name): #urlsでそのように指定しているの�
     #request.user、owner,receiverはuserobj,room_nameはStringなのでおかしくなってしまう
 
     params={
+        "friend":rNameUser,
+        "user":request.user,
         "form":form,
         "room_name": room_name,
         'data':data, #dataを絞り込む必要性(解決)
@@ -72,7 +74,7 @@ def talk_room(request,room_name): #urlsでそのように指定しているの�
 
 @login_required(login_url ='/login')
 def friends(request,num=1):
-    friends = User.objects.all().filter(~Q(username=request.user))
+
     #friendsとtalkroomの順番がそもそも結びついていないので困難。。。
     # data = []
     # for friend in friends:
@@ -81,14 +83,30 @@ def friends(request,num=1):
     #         data += messages.order_by('-pub_date')[0]
     #     except ObjectDoesNotExist:
     #         pass
-
-    friendsOrder = friends.order_by('id').reverse() #Userそのまま使うのは非推奨らしい
-    fpage = Paginator(friendsOrder,8)
-    images = Image.objects.all().filter(~Q(user=request.user)).order_by('id').reverse()
-    ipage = Paginator(images,8)
+    friends = User.objects.filter(~Q(username=request.user))
+    # friendsOrder = friends.order_by('id').reverse() #Userそのまま使うのは非推奨らしい
+    # fpage = Paginator(friendsOrder,8)
+    # images = Image.objects.filter(~Q(user=request.user))
+    # ipage = Paginator(images,8)
+    latest_message = Message.objects.filter(Q(owner = request.user,receiver = OuterRef('pk'))|Q(owner = OuterRef('pk'), receiver = request.user))\
+    .order_by('-pub_date') #User id をOuterreferしている
+    friendsAnnotate = User.objects.exclude(id=request.user.id).annotate( #filterは一つずつとってきているイメージで、そのたびにアノテートが発動し○○さんのIDが上のOuterRefに入っているイメージ。
+        latest_message_id = Subquery(
+            latest_message.values('pk')[:1]
+        ),
+        latest_message_content = Subquery(
+            latest_message.values('contents')[:1] #friendsがparameterでテンプレートに渡されているので、その中に入っているこれも渡される。なんて便利！
+        ),
+        latest_message_pub_date = Subquery(
+            latest_message.values('pub_date')[:1]
+        ),
+    ).order_by("-latest_message_pub_date")
+    friendsPage = Paginator(friendsAnnotate,8)
     params ={
-        'data':fpage.get_page(num),
-        'images':ipage.get_page(num),
+        "user":request.user,
+        "friends":friendsPage.get_page(num),
+        # 'data':fpage.get_page(num),
+        # 'images':ipage.get_page(num),
     }
     return render(request, "myapp/friends.html",params)
 
@@ -152,6 +170,7 @@ def image_change(request):
     if request.method == 'GET':
         form = ImageChangeForm(instance=request.user) #userの情報が入ったformを参照
         params ={
+            "user":request.user,
             "title":"プロフィール画像",
             "form":form,
             "userimg":userImg,

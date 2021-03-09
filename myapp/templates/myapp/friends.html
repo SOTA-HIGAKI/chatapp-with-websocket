@@ -7,26 +7,41 @@
 {% block header-title %}友達{% endblock header-title %}
 
 {% block content %}
-<div class="talkbox">
+{% comment %} <div class="talkbox">
     <div class="user_image">
         {% for image in images %}
         <div class='image'><img src='../../../media/{{image.image}}'></div>{% endfor %}
     </div>
     <div class="user_name_column">
-        {% for friend in data %}　{% comment %}urlsと指定が違うがこれでいい{% endcomment %}
+        {% for friend in data %}
         <div class="user_name"><a href="{% url 'talk_room' friend.username %}" name="{{friend.username}}">{{friend.username}}</a></div>
         {% endfor %}
     </div>
-</div>
+</div> {% endcomment %}
+{% for friend in friends %}
+<ul class="friends__list-wrap">
+    <li class ="friends__list">
+        <a class="friends__list-link" href="{% url 'talk_room' friend.username %}">
+            <img class="friends__list-usericon" src="{{ friend.image_user.image.url }}"> <!--urlでうまいことやってくれる！-->
+            <div class="friends__list-username">{{ friend.username }}</div>
+            <!-- ここから最新のトークを表示する部分 -->
+            <div class="friends__list-talk">
+                <p class="friends__list-talk-content">{{ friend.latest_message_content }}</p>
+                <p class="friends__list-talk-time">{{ friend.latest_message_pub_date|date:"n/j H:i" }}</p>
+            </div>
+        </a>
+    </li>
+</ul>
+{% endfor %}
 <ul class="pagination">
-        {% if data.has_previous %}
+        {% if friends.has_previous %}
         <li class="page-item">
             <a class="page-link" href="{% url 'friends' %}">
                 &laquo; first</a>
         </li>
         <li class="page-item">
             <a class="page-link"
-            href="{% url 'friends' %}/{{data.previous_page_number}}">
+            href="{% url 'friends' %}/{{friends.previous_page_number}}">
                 &laquo; prev</a>
         </li>
         {% else %}
@@ -41,17 +56,15 @@
         {% endif %}
         <li class="page-item">
             <a class="page-link">
-            {{data.number}}/{{data.paginator.num_pages}}</a>
+            {{friends.number}}/{{friends.paginator.num_pages}}</a>
         </li>
-        {% if data.has_next %}
+        {% if friends.has_next %}
         <li class="page-item">
-            <a class="page-link"
-            href="{% url 'friends' %}/{{data.next_page_number}}">
+            <a class="page-link" href="{% url 'friends' %}/{{friends.next_page_number}}">
                 next &raquo;</a>
         </li>
         <li class="page-item">
-            <a class="page-link"
-            href="{% url 'friends' %}/{{data.paginator.num_pages}}">
+            <a class="page-link" href="{% url 'friends' %}/{{friends.paginator.num_pages}}">
                 last &raquo;</a>
         </li>
         {% else %}
