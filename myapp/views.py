@@ -163,10 +163,11 @@ class EmailChange(LoginRequiredMixin,FormView):
 @login_required(login_url ='/login')
 def image_change(request):
     #どうしてもわからなかったのでsample参照
-    try:
-        userImg = Image.objects.get(user=request.user)
-    except ObjectDoesNotExist:
-        userImg = Image.objects.none()
+    # try:
+    #     userImg = Image.objects.get(user=request.user)
+    # except ObjectDoesNotExist:
+    #     userImg = Image.objects.none()
+    userImg, _ = Image.objects.get_or_create(user=request.user)
     if request.method == 'GET':
         form = ImageChangeForm(instance=request.user) #userの情報が入ったformを参照
         params ={
