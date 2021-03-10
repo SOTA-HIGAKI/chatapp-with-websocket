@@ -3,6 +3,7 @@
 {{title}}変更
 {% endblock header-title %}
 {% block content %}
+<p>※1MB以下にしないとエラーはきます。</p>
 <form action="{% url 'imagechange'%}" method = 'POST' name='imgchange_form' enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}

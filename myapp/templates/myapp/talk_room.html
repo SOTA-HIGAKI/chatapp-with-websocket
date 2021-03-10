@@ -3,11 +3,11 @@
 {% block header %}
 <header class="header">
         <div class="header-container">
-        <a href="{% url 'friends' %}" class="back">&laquo;</a>
+        <a href="{% url 'friends' %}" class="back">戻る&laquo;</a>
             <span class="header-container__title">
                 {{room_name}}
             </span>
-        <a href="{% url 'talk_room' room_name %}">更新</a>
+        <a href="{% url 'talk_room' room_name %}" class="button">更新</a>
         </div>
     </header>
 {% endblock header %}

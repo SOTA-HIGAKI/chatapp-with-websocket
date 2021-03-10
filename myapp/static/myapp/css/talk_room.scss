@@ -70,3 +70,29 @@
         z-index: -1;
     }
 }
+.back{
+    position: fixed;
+    top: 16px;
+    left: 21px;
+    font-size: 16px;
+    text-decoration: none;
+    border: solid 1px white;
+    border-radius: 2px;
+    padding: 2px 4px;
+    background-color: white;
+    color: rgb(251, 203, 255);
+    z-index: 10;
+
+}
+.button{
+    position: fixed;
+    top: 16px;
+    right: 40px;
+    font-size: 16px;
+    text-decoration: none;
+    border: solid 1px white;
+    border-radius: 2px;
+    padding: 2px 4px;
+    background-color: white;
+    color: rgb(102, 102, 255);
+}

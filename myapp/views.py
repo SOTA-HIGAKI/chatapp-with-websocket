@@ -167,7 +167,7 @@ def image_change(request):
     #     userImg = Image.objects.get(user=request.user)
     # except ObjectDoesNotExist:
     #     userImg = Image.objects.none()
-    userImg, _ = Image.objects.get_or_create(user=request.user)
+    userImg = Image.objects.get(user=request.user)
     if request.method == 'GET':
         form = ImageChangeForm(instance=request.user) #userの情報が入ったformを参照
         params ={
