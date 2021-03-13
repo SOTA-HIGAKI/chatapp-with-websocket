@@ -14,14 +14,13 @@
     </div>
     <div class="user_name_column">
         {% for friend in data %}
-        <div class="user_name"><a href="{% url 'talk_room' friend.username %}" name="{{friend.username}}">{{friend.username}}</a></div>
+        <div class="user_name"><a href="{% url 'talk_room' friend.id %}" name="{{friend.username}}">{{friend.username}}</a></div>
         {% endfor %}
-    </div>
 </div> {% endcomment %}
 {% for friend in friends %}
 <ul class="friends__list-wrap">
     <li class ="friends__list">
-        <a class="friends__list-link" href="{% url 'talk_room' friend.username %}">
+        <a class="friends__list-link" href="{% url 'talk_room' friend.id %}">
             <img class="friends__list-usericon" src="{{ friend.image_user.image.url }}"> <!--urlでうまいことやってくれる！-->
             <div class="friends__list-username">{{ friend.username }}</div>
             <!-- ここから最新のトークを表示する部分 -->

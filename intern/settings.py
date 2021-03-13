@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,12 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+# Channels
+ASGI_APPLICATION = 'intern.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': { 'hosts': [('127.0.0.1', 6379)], },
+    },
+}

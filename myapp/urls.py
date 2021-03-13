@@ -8,7 +8,7 @@ urlpatterns = [
     path('login', views.Login.as_view(), name='login_view'),
     path('friends/<int:num>', views.friends, name='friends'),
     path('friends', views.friends, name='friends'),
-    path('talk_room/<str:room_name>', views.talk_room, name='talk_room'),
+    path('talk_room/<int:id>', views.talk_room, name='talk_room'),
     path('setting', views.setting, name='setting'),
     path('logout',views.Logout.as_view(),name='logout_view'),
     path('pwchange',views.PasswordChangeView.as_view(),name='password_change'),
@@ -17,4 +17,5 @@ urlpatterns = [
     path('emailchange',views.EmailChange.as_view(),name='emailchange'),
     path('imagechange',views.image_change,name='imagechange'),
     path('redirect',views.redirection,name='redirect'),
+    path('chat',views.chat,name="chat"),
 ]
