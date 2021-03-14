@@ -131,16 +131,17 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/friends'
 LOGOUT_REDIRECT_URL='/'
-try:
-    from .local_settings import *
-except ImportError:
-    pass
 
 # Channels
-ASGI_APPLICATION = 'intern.asgi.application'
+ASGI_APPLICATION = 'intern.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': { 'hosts': [('127.0.0.1', 6379)], },
     },
 }
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass

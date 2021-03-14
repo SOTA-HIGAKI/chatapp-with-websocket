@@ -23,7 +23,7 @@ def index(request):
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST,request.FILES)
-        print(request.FILES)
+        # print(request.FILES)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -226,8 +226,8 @@ def image_change(request):
     elif request.method == "POST":
         params = {"title":"プロフィール画像",}
         form = ImageChangeForm(request.POST,request.FILES)
-        print(request.POST)
-        print(request.FILES) #↓のとき、なんで空になるの？あとでgitで確認。
+        # print(request.POST)
+        # print(request.FILES) #↓のとき、なんで空になるの？あとでgitで確認。
         if form.is_valid():
             userImg.image = form.cleaned_data.get("image")
             # img_obj = Image.objects.get(image=newImage,user = request.user)

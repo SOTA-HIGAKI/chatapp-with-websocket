@@ -44,19 +44,19 @@ class ChatConsumer( AsyncWebsocketConsumer ):
         owner = User.objects.get(username=owner_name)
         room_name = self.room_name
         room_member_id = room_name.split('_')
-        print(room_name)
-        print(owner.id)
-        print(type(owner.id))
-        print([int(x) for x in room_member_id if int(x) != owner.id])
+        # print(room_name)
+        # print(owner.id)
+        # print(type(owner.id))
+        # print([int(x) for x in room_member_id if int(x) != owner.id])
         receiver_id = [int(x) for x in room_member_id if int(x) != owner.id][0]
-        print(receiver_id)
+        # print(receiver_id)
         receiver = User.objects.get(id=receiver_id)
         contents = kwargs['message']
         Message.objects.create(owner=owner, receiver=receiver, contents=contents)
 
 
     async def chat_message(self,event):
-        print(event)
+        # print(event)
         data_json ={
             'owner':event['owner'],
             'message':event['message'],
