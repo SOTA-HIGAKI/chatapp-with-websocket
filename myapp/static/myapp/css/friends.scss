@@ -7,7 +7,9 @@ html{
     padding: 8px 16px;
     list-style: none;
     border-bottom: solid 1px #888;
-
+    &:hover{
+        background-color: rgb(247, 247, 247);
+    }
     &-wrap{
         padding: 0%;
         margin: 0%;
@@ -28,7 +30,7 @@ html{
         float: left;
         /* ここは調べた方が早い、便利要素object-fit */
         object-fit: cover;
-        z-index: -1;
+        // z-index: ;
     }
 
     &-username{
@@ -68,4 +70,21 @@ html{
 }
 .page-item{
     list-style: none;
+}
+
+.button{
+    position: fixed;
+    top: 16px;
+    right: 40px;
+    font-size: 16px;
+    text-decoration: none;
+    border: solid 5px rgb(107, 160, 107);
+    border-radius: 20%;
+    padding: 2px 4px;
+    background-color: palegreen;
+    color: rgb(255, 255, 255);
+    &:hover{
+        background-color: rgb(106, 167, 106);
+        border:solid 5px palegreen;
+    }
 }

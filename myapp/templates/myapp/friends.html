@@ -1,11 +1,19 @@
 {% extends 'myapp/base.html' %}
 {% load static %}
 {% block title %}Friends{% endblock title %}
+{% block header %}
 {% block extra_style %}
 <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/friends.css' %}" />
 {% endblock %}
-{% block header-title %}友達{% endblock header-title %}
-
+<header class="header">
+    <div class="header-container">
+        <span class="header-container__title">
+            友達
+        </span>
+        <a href="{% url "friends" %}" class="button">更新</a>
+    </div>
+</header>
+{% endblock header %}
 {% block content %}
 {% comment %} <div class="talkbox">
     <div class="user_image">
@@ -25,14 +33,14 @@
             <div class="friends__list-username">{{ friend.username }}</div>
             <!-- ここから最新のトークを表示する部分 -->
             <div class="friends__list-talk">
-                <p class="friends__list-talk-content">{{ friend.latest_message_content }}</p>
-                <p class="friends__list-talk-time">{{ friend.latest_message_pub_date|date:"n/j H:i" }}</p>
+                <p class="friends__list-talk-content">{{ friend.latest_msg_content }}</p>
+                <p class="friends__list-talk-time">{{ friend.latest_msg_pub_date|date:"n/j H:i" }}</p>
             </div>
         </a>
     </li>
 </ul>
 {% endfor %}
-<ul class="pagination">
+{% comment %} <ul class="pagination">
         {% if friends.has_previous %}
         <li class="page-item">
             <a class="page-link" href="{% url 'friends' %}">
@@ -76,5 +84,5 @@
                 last &raquo;</a>
         </li>
         {% endif %}
-    </ul>
+    </ul> {% endcomment %}
     {% endblock %}

@@ -6,11 +6,11 @@
 {% endblock %}
 <header class="header">
     <div class="header-container">
-        <a href="{% url 'friends' %}" class="back">戻る&laquo;</a>
+        <a href="" class="back">戻る&laquo;</a>
         <span class="header-container__title">
             {{you.username}}
         </span>
-        <a href="{% url 'talk_room' you.id %}" class="button">更新</a>
+        {% comment %} <a href="{% url 'talk_room' you.id %}" class="button">更新</a> {% endcomment %}
     </div>
 </header>
 {% endblock header %}
@@ -19,43 +19,43 @@
 
     <!-- トークの表示部分 -->
     <ul class="talk_room__chatboard" id="talk_room__chatboard">
-        {% comment %}
         <!-- =================== -->
         <!-- トークに応じて表示  -->
         <!-- ＞for文を回して表示 -->
         <!-- =================== -->
-        {% for talk in data %}
-        <!-- ============================================== -->
+                <!-- ============================================== -->
         <!-- 自分→友人と友人→自分のメッセージで表示を変える -->
         <!-- ＞違いを見出してclassの違いに反映              -->
         <!-- ＞cssにて表示に違いを出す                      -->
         <!-- ============================================== -->
-        {% if talk.owner == user %}
+        {% for talk in msg %}
+
+        {% if talk.owner == me %}
         <li class="talk_room__chatboard-content talk_room__chatboard-content-user" id="talk_room__chatboard">
-            <img class="friends__list-usericon-user" src="{{ user.image_user.image.url }}">
+            <img class="friends__list-usericon-user" src="{{ me.image_user.image.url }}">
             <p class="talk_room__chatboard-content-user-name">＞{{ talk.owner }}</p>
-            <p class="talk_room__chatboard-content-user-text">{{ talk.contents }}({{talk.pub_date|date:'m/d H:i:s'}})
+            <p class="talk_room__chatboard-content-user-text">{{ talk.contents }}<span class="message_time">({{talk.pub_date|date:'m/d H:i:s'}})</span>
             </p>
         </li>
         {% else %}
         <li class="talk_room__chatboard-content talk_room__chatboard-content-friend" id="talk_room__chatboard">
-            <img class="friends__list-usericon-friend" src="{{ friend.image_user.image.url }}">
+            <img class="friends__list-usericon-friend" src="{{ you.image_user.image.url }}">
             <p class="talk_room__chatboard-content-friend-name">＞{{ talk.owner }}</p>
-            <p class="talk_room__chatboard-content-friend-text">{{ talk.contents }}({{talk.pub_date|date:'m/d H:i:s'}})
+            <p class="talk_room__chatboard-content-friend-text">{{ talk.contents }}<span id="data_time">({{talk.pub_date|date:'m/d H:i:s'}})</span>
             </p>
         </li>
         {% endif %}
-        {% endfor %} {% endcomment %}
-        <div class="contents">
+        {% endfor %}
+        {% comment %} <div class="contents">
             <div class="message_box" id="room">
                 {% for talk in msg %}
-                <!-- <div class="message_sender">
-                    {% if talk.sender == me %}
-                        自分から:
+                <div class="message_sender">
+                    {% if talk.owner == me %}
+                    {{talk.owner}}>
                     {% else %}
-                        {{talk.sender}}から:
+                        {{talk.owner}}>
                     {% endif %}
-                </div> -->
+                </div>
                 {% if talk.owner == me %}
                 <div class="right-message">
                     {{talk.contents}}
@@ -71,7 +71,7 @@
                 </div>
                 <!-- <p class="message_text">{{talk.content}}</p> -->
                 {% endfor %}
-            </div>
+            </div> {% endcomment %}
     </ul>
 </div>
 {% endblock %}
@@ -94,7 +94,7 @@
     document.getElementById('id_talk').setAttribute('autocomplete', 'off');
     // トークの表示を新しいものを下にしているため、最下にスクロールさせる
     function scrollToBottom() {
-        var contentsBox = document.getElementById("room");
+        var contentsBox = document.getElementById("talk_room__chatboard");
         window.scroll(0, contentsBox.scrollHeight);
     }
 
@@ -136,29 +136,50 @@
         let owner = data['owner'];
         let message = data['message'];
         if (owner === myName) {
-            let box = document.createElement("div");
-            let time = document.createElement("div");
-            box.className = "right-message";
-            box.innerText = message;
+            let box = document.createElement("li");
+            let userNameContents = document.createElement("p");
+            let messageContents = document.createElement("p");
+            let time = document.createElement("span");
+            let image = document.createElement('img');
+            box.className = "talk_room__chatboard-content talk_room__chatboard-content-user";
+            userNameContents.className = "talk_room__chatboard-content-user-name";
+            messageContents.className="talk_room__chatboard-content-user-text";
+            image.className="friends__list-usericon-user"
+            userNameContents.innerText=">"+myName;
+            messageContents.innerText=message;
+            image.src="{{ me.image_user.image.url }}";
             const date = new Date();
             time.className = "message_time";
-            time.innerText = (date.getMonth() + 1) + '/' + date.getDate();
-            time.innerText += " " + date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2);
-            document.getElementById("room").appendChild(box);
-            document.getElementById("room").appendChild(time);
+            time.innerText = "("+(date.getMonth() + 1) + '/' + date.getDate();
+            time.innerText += " " + date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2)+")";
+            document.getElementById("talk_room__chatboard").appendChild(box);
+            box.appendChild(image);
+            box.appendChild(userNameContents);
+            box.appendChild(messageContents);
+            messageContents.appendChild(time);
         }
         else {
-            let box = document.createElement("div");
-            let time = document.createElement("div");
-            box.className = "left-message";
-            box.innerText = message;
+            let box = document.createElement("li");
+            let userNameContents = document.createElement("p");
+            let messageContents = document.createElement("p");
+            let time = document.createElement("span");
+            let image = document.createElement('img');
+            box.className = "talk_room__chatboard-content talk_room__chatboard-content-friend";
+            userNameContents.className = "talk_room__chatboard-content-friend-name";
+            messageContents.className="talk_room__chatboard-content-friend-text";
+            image.className="friends__list-usericon-friend"
+            userNameContents.innerText=">"+owner;
+            messageContents.innerText=message;
+            image.src="{{ you.image_user.image.url }}";
             const date = new Date();
             time.className = "message_time";
-            time.innerText = (date.getMonth() + 1) + '/' + date.getDate();
-            //time.appendChild("br");
-            time.innerText += " " + date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2);
-            document.getElementById("room").appendChild(box);
-            document.getElementById("room").appendChild(time);
+            time.innerText = "("+(date.getMonth() + 1) + '/' + date.getDate();
+            time.innerText += " " + date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2) + ":" + ("00" + date.getSeconds()).slice(-2)+")";
+            document.getElementById("talk_room__chatboard").appendChild(box);
+            box.appendChild(image);
+            box.appendChild(userNameContents);
+            box.appendChild(messageContents);
+            messageContents.appendChild(time);
             // メッセージの整形
             // let strMessage = data["message"];
             // // 拡散されたメッセージをメッセージリストに追加

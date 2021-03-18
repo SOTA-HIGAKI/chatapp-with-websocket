@@ -125,13 +125,14 @@ def friends(request,num=1):
     #     # 'data':fpage.get_page(num),
     #     # 'images':ipage.get_page(num),
     # }
-    user_me = request.user
-    my_name = str(user_me.username)
+
+    # my_name = str(user_me.username)
     # user_you = User.objects.get(id=user_me.id)
     # if user_me.id < user_you.id:
     #     room_name = str(user_me.id) + '_' + str(user_you.id)
     # else:
     #     room_name = str(user_you.id) + '_' + str(user_me.id)
+    user_me = request.user
     latest_msg = Message.objects.filter( Q(owner=OuterRef("pk"),receiver=user_me) | Q(owner=user_me,receiver=OuterRef("pk")) ).order_by('-pub_date')
     user_qs = (User.objects
         .exclude(id=user_me.id)
