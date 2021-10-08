@@ -1,21 +1,18 @@
 import json
 
-from django.shortcuts import redirect, render, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login,authenticate
+from django.shortcuts import redirect, render
+
+from django.contrib.auth import login, authenticate
 from . forms import SignUpForm, LoginForm, PostForm , NameChangeForm, EmailChangeForm, ImageChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView ,PasswordChangeView,PasswordChangeDoneView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.models import User
 from django.db.models import Q, OuterRef, Subquery
 from django.core.paginator import Paginator
 from .models import Message,Image
 from django.views.generic import FormView
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
-from django.http import JsonResponse, HttpResponse
-from django.core.serializers.json import DjangoJSONEncoder
 
 def index(request):
     return render(request, "myapp/index.html")
@@ -167,13 +164,13 @@ def setting(request):
 #     template_name = ''LoginRequiredMixin,
 
 class NameChange(LoginRequiredMixin,FormView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         params = {"title":"ユーザー名",}
         form = NameChangeForm()
         params["form"] = form
         return render(request, 'myapp/valchange.html', params)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         params = {"title":"ユーザーネーム",}
         form = NameChangeForm(request.POST)
         if form.is_valid():
@@ -187,13 +184,13 @@ class NameChange(LoginRequiredMixin,FormView):
             return render(request, 'myapp/valchange.html', params)
 
 class EmailChange(LoginRequiredMixin,FormView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         params = {"title":"メールアドレス",}
         form = EmailChangeForm()
         params["form"] = form
         return render(request, 'myapp/valchange.html', params)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         params = {"title":"メールアドレス",}
         form = EmailChangeForm(request.POST)
         if form.is_valid():
