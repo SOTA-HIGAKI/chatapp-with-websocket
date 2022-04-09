@@ -1,5 +1,5 @@
 from django import forms
-from .models import Message,Image
+from .models import Message, Image
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -7,38 +7,54 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 class PostForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ('contents',)
+        fields = ("contents",)
+
 
 class SignUpForm(UserCreationForm):
     img = forms.ImageField(required=False)
+
     class Meta:
         model = User
-        fields = ['username','email','password1','password2',] #'img'
+        fields = [
+            "username",
+            "email",
+            "password1",
+            "password2",
+        ]
+
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+
 class NameChangeForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username',]
+        fields = [
+            "username",
+        ]
+
     def update(self, user):
-        user.username = self.cleaned_data['username']
+        user.username = self.cleaned_data["username"]
         user.save()
+
 
 class EmailChangeForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['email',]
+        fields = [
+            "email",
+        ]
+
     def update(self, user):
-        user.email = self.cleaned_data['email'] #これは結局Reporter.objects.all().updateみたいな感じで使うために設定しているっぽい
+        user.email = self.cleaned_data["email"]
         user.save()
+
 
 class ImageChangeForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ['image',]
-    # def update(self,image):
-    #     image.image = self.cleaned_data['image']
-    #     image.save()
+        fields = [
+            "image",
+        ]
